@@ -1,9 +1,11 @@
+version: 2  
+
 before:
   hooks:
 
-
 builds:
-  - binary: vip_patroni
+  - id: vip_patroni_build 
+    binary: vip_patroni
     main: ./cmd/main.go
     goarch:
       - amd64
@@ -16,7 +18,8 @@ builds:
       - -X main.build={{.Version}}
 
 archives:
-  - builds: [vip_patroni]
+  - id: vip_patroni_archive  
+    builds: [vip_patroni_build] 
 
 nfpms:
   - vendor: vip_patroni
@@ -24,5 +27,6 @@ nfpms:
     maintainer: Marat Bogatyrev
     description: Command-line admin tool for observing and troubleshooting Postgres.
     license: BSD-3
-    formats: [ rpm, deb ]
+    formats: [rpm, deb]
     bindir: /usr/local/bin
+    builds: [vip_patroni_build]  # Используем идентификатор сборки
