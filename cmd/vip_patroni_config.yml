@@ -1,0 +1,10 @@
+---
+ip: 80.73.64.7
+netmask: 32
+interface: eth0
+interval: 1000
+retry-after: 250
+retry-num: 2
+patroni-url: http://10.203.97.100:8008
+api-port: 6010
+

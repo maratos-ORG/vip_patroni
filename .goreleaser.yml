@@ -1,0 +1,28 @@
+before:
+  hooks:
+
+
+builds:
+  - binary: vip_patroni
+    main: ./cmd/main.go
+    goarch:
+      - amd64
+    goos:
+      - linux
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -a -installsuffix cgo
+      - -X main.build={{.Version}}
+
+archives:
+  - builds: [vip_patroni]
+
+nfpms:
+  - vendor: vip_patroni
+    homepage: https://github.com/maratos-ORG/vip_patroni.git
+    maintainer: Marat Bogatyrev
+    description: Command-line admin tool for observing and troubleshooting Postgres.
+    license: BSD-3
+    formats: [ rpm, deb ]
+    bindir: /usr/local/bin
