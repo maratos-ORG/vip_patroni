@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"time"
 	log "vip_patroni/internal/logging"
 )
 
@@ -13,9 +14,15 @@ type Response struct {
 	ServerVersion int    `json:"server_version"`
 }
 
-func GetPatroniStatus(url string) (Response, error) {
+func GetPatroniStatus(url string, timeoutMillis int) (Response, error) {
 	var result Response
-	resp, err := http.Get(url)
+
+	client := http.Client{
+		Timeout: time.Duration(timeoutMillis) * time.Millisecond,
+	}
+
+	resp, err := client.Get(url)
+
 	if err != nil {
 		log.Error("no response from request: %s", err)
 		return result, err
