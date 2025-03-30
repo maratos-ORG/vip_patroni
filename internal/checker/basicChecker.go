@@ -10,7 +10,7 @@ import (
 func InitChecker(ctx context.Context, conf *config.Config, out chan<- bool) error {
 checkLoop:
 	for {
-		patroni_status, err := GetPatroniStatus(conf.PatroniURL)
+		patroni_status, err := GetPatroniStatus(conf.PatroniURL, conf.PatroniTimeoutMillis)
 		if err != nil {
 			log.Error("no response from request (pkg->checker): %s", err)
 			if ctx.Err() != nil {

@@ -6,5 +6,6 @@ interval: 1000
 retry-after: 250
 retry-num: 2
 patroni-url: http://10.203.97.100:8008
+patroni-timeout-millis: 700
 api-port: 6010
 

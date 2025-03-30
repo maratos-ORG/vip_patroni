@@ -12,16 +12,17 @@ import (
 
 // Config represents the configuration of the vip_patroni
 type Config struct {
-	IP         string `mapstructure:"ip"`
-	Mask       int    `mapstructure:"netmask"`
-	Iface      string `mapstructure:"interface"`
-	Interval   int    `mapstructure:"interval"`    //milliseconds
-	RetryAfter int    `mapstructure:"retry-after"` //milliseconds
-	RetryNum   int    `mapstructure:"retry-num"`
-	LogLevel   string `mapstructure:"log-level"`
-	Status     string `mapstructure:"status"`
-	PatroniURL string `mapstructure:"patroni-url"`
-	APIPort    string `mapstructure:"api-port"`
+	IP                   string `mapstructure:"ip"`
+	Mask                 int    `mapstructure:"netmask"`
+	Iface                string `mapstructure:"interface"`
+	Interval             int    `mapstructure:"interval"`    //milliseconds
+	RetryAfter           int    `mapstructure:"retry-after"` //milliseconds
+	RetryNum             int    `mapstructure:"retry-num"`
+	LogLevel             string `mapstructure:"log-level"`
+	Status               string `mapstructure:"status"`
+	PatroniURL           string `mapstructure:"patroni-url"`
+	PatroniTimeoutMillis int    `json:"patroni_timeout_millis"` // milliseconds
+	APIPort              string `mapstructure:"api-port"`
 }
 
 func defineFlags() {
@@ -68,6 +69,7 @@ func NewConfig(verApp string) (*Config, error) {
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer("-", "_"))
 	viper.SetDefault("ip", "postgres://localhost")
+	viper.SetDefault("patroni_timeout_millis", 500)
 	if viper.IsSet("config") {
 		log.Debug("Parsing config: %s", viper.GetString("config"))
 		viper.SetConfigFile(viper.GetString("config"))
